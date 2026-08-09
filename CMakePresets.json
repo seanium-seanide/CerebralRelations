@@ -25,7 +25,29 @@
   "testPresets": [
     {
       "name": "test-debug",
-      "configurePreset": "config-debug"
+      "configurePreset": "config-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "build-and-test",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "config-debug"
+        },
+        {
+          "type": "build",
+          "name": "build-debug"
+        },
+        {
+          "type": "test",
+          "name": "test-debug"
+        }
+      ]
     }
   ]
 }

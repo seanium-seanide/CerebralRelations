@@ -5,10 +5,23 @@ target_sources(unit_tests
     unit_tests.cpp
 )
 
+target_compile_features(unit_tests
+  PRIVATE
+    cxx_std_23
+)
+
 target_link_libraries(unit_tests
   PRIVATE
     Catch2::Catch2WithMain
     CerebralRelationsLib
+)
+
+target_compile_options(unit_tests
+  PRIVATE
+    -Wall
+    -Wextra
+    -Werror
+    -g
 )
 
 add_test(

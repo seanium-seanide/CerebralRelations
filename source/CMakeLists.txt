@@ -12,12 +12,27 @@ target_sources(CerebralRelationsLib
         ${CEREBRALRELATIONS_INCLUDE_DIR}/CerebralRelations.hpp
 )
 
+target_compile_features(CerebralRelationsLib
+  PRIVATE
+    cxx_std_23
+)
+
+target_link_libraries(CerebralRelationsLib
+  PRIVATE
+    fmt::fmt
+)
+
 
 add_executable(CerebralRelations)
 
 target_sources(CerebralRelations
   PRIVATE
     main.cpp
+)
+
+target_compile_features(CerebralRelations
+  PRIVATE
+    cxx_std_23
 )
 
 target_link_libraries(CerebralRelations
