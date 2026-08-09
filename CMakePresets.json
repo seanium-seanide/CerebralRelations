@@ -1,0 +1,25 @@
+{
+  "version": 8,
+  "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
+  "configurePresets": [
+    {
+      "name": "config-debug",
+      "displayName": "Configure (Debug)",
+      "description": "Configure CerebralRelations for debug build",
+      "binaryDir": "build/debug",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-debug",
+      "displayName": "Build (Debug)",
+      "description": "Build debug configuration for CerebralRelations",
+      "configurePreset": "config-debug"
+    }
+  ]
+}
