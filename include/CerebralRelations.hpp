@@ -2,6 +2,7 @@
 
 #include <string>
 #include <array>
+#include <iostream>
 #include <ostream>
 #include <cstdint>
 
@@ -15,7 +16,7 @@ public:
 
   void loadScript(const std::string& script);
   std::string dumpScript();
-  void run(std::ostream& os);
+  void run(std::ostream& os = std::cout);
 
 private:
   std::string m_script;
