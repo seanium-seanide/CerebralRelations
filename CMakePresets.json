@@ -21,5 +21,11 @@
       "description": "Build debug configuration for CerebralRelations",
       "configurePreset": "config-debug"
     }
+  ],
+  "testPresets": [
+    {
+      "name": "test-debug",
+      "configurePreset": "config-debug"
+    }
   ]
 }
