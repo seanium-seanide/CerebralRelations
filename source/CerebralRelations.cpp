@@ -12,7 +12,7 @@ CerebralRelations::CerebralRelations()
 }
 
 
-void CerebralRelations::loadScript(const std::string& script)
+void CerebralRelations::loadScript(std::string_view script)
 {
   m_script = script;
 }
@@ -58,12 +58,21 @@ void CerebralRelations::run(std::ostream& os)
 
       case '+':
       {
+        if (m_data[dataPointer] == 255)
+        {
+          throw std::runtime_error("Attempted to imcrement data out of range");
+        }
+
         ++m_data[dataPointer];
         break;
       }
 
       case '-':
       {
+        if (m_data[dataPointer] == 0)
+        {
+          throw std::runtime_error("Attempted to decrement data out of range");
+        }
         --m_data[dataPointer];
         break;
       }

@@ -15,7 +15,7 @@ public:
 
   CerebralRelations();
 
-  void loadScript(const std::string& script);
+  void loadScript(std::string_view script);
   std::string dumpScript();
   void run(std::ostream& os = std::cout);
   void reset();

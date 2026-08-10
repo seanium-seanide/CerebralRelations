@@ -8,6 +8,7 @@
 
 using namespace std::string_literals;
 
+
 TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
 {
   auto interpreter = CerebralRelations();
@@ -109,5 +110,21 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
 
     auto result = oss.str();
     REQUIRE(result == expectedResult);
+  }
+
+  SECTION("Cannot increment a cell beyond 255")
+  {
+    interpreter.loadScript(std::string(258, '+'));
+
+    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
+    REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("out of range"));
+  }
+
+  SECTION("Cannot decrement a cell below 0")
+  {
+    interpreter.loadScript(std::string(1, '-'));
+
+    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
+    REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("out of range"));
   }
 }
