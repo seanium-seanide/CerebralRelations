@@ -8,24 +8,27 @@ using namespace std::string_literals;
 
 CerebralRelations::CerebralRelations()
 {
-  std::memset(m_data.data(), static_cast<std::size_t>(0), TAPE_SIZE);
+  reset();
 }
+
 
 void CerebralRelations::loadScript(const std::string& script)
 {
   m_script = script;
 }
 
+
 std::string CerebralRelations::dumpScript()
 {
   return m_script;
 }
 
+
 void CerebralRelations::run(std::ostream& os)
 {
-  auto dataPointer = static_cast<std::size_t>(0);
+  auto dataPointer = static_cast<size_type>(0);
 
-  for (std::size_t instructionPointer = 0; instructionPointer < m_script.size(); ++instructionPointer)
+  for (size_type instructionPointer = 0; instructionPointer < m_script.size(); ++instructionPointer)
   {
     auto instruction = m_script[instructionPointer];
 
@@ -59,6 +62,12 @@ void CerebralRelations::run(std::ostream& os)
         break;
       }
 
+      case '-':
+      {
+        --m_data[dataPointer];
+        break;
+      }
+
       case '.':
       {
         os << static_cast<char>(m_data[dataPointer]);
@@ -71,4 +80,10 @@ void CerebralRelations::run(std::ostream& os)
       }
     }
   }
+}
+
+
+void CerebralRelations::reset()
+{
+  std::memset(m_data.data(), static_cast<size_type>(0), tape_size);
 }

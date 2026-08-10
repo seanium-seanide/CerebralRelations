@@ -82,18 +82,39 @@ TEST_CASE("The interpreter cannot run off the tape from the left", "[cerebral]")
 {
   auto interpreter = CerebralRelations();
 
+  interpreter.loadScript(">");
+  REQUIRE_NOTHROW(interpreter.run());
+
+  interpreter.reset();
   interpreter.loadScript("<");
 
   REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
   REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("left"));
 }
 
+
 TEST_CASE("The interpreter cannot run off the tape from the right", "[cerebral]")
 {
   auto interpreter = CerebralRelations();
 
-  interpreter.loadScript(std::string(30000, '>'));
+  interpreter.loadScript(std::string(CerebralRelations::tape_size -1, '>'));
+  REQUIRE_NOTHROW(interpreter.run());
 
+  interpreter.reset();
+  interpreter.loadScript(std::string(CerebralRelations::tape_size, '>'));
   REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
   REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("right"));
+}
+
+
+TEST_CASE("The interpreter can perform subtraction", "[cerebral]")
+{
+  auto interpreter = CerebralRelations();
+
+  interpreter.loadScript(std::string(68, '+') + "."s + std::string(3, '-') + ".");
+  auto oss = std::ostringstream();
+  interpreter.run(oss);
+
+  auto result = oss.str();
+  REQUIRE(result == "DA");
 }
