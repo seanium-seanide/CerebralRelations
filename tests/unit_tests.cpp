@@ -78,15 +78,22 @@ TEST_CASE("The interpreter can write and print characters in sequential cells fr
 }
 
 
-TEST_CASE("The interpreter cannot run off the end", "[cerebral]")
+TEST_CASE("The interpreter cannot run off the tape from the left", "[cerebral]")
 {
   auto interpreter = CerebralRelations();
 
-  auto script = GENERATE(
-      "<"
-  );
-  interpreter.loadScript(script);
+  interpreter.loadScript("<");
 
   REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
   REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("left"));
+}
+
+TEST_CASE("The interpreter cannot run off the tape from the right", "[cerebral]")
+{
+  auto interpreter = CerebralRelations();
+
+  interpreter.loadScript(std::string(30000, '>'));
+
+  REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
+  REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("right"));
 }

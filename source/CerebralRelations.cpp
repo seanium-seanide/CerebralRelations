@@ -33,6 +33,11 @@ void CerebralRelations::run(std::ostream& os)
     {
       case '>':
       {
+        if (dataPointer == m_data.size() - 1)
+        {
+          throw std::runtime_error("Attempted to step from tape at right side");
+        }
+
         ++dataPointer;
         break;
       }
