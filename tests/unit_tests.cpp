@@ -17,7 +17,7 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
   {
     auto script = GENERATE(
         ",>,[<.>-]"s
-        , "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s
+        , std::string(static_cast<int>('A'), '+') + "."
     );
     interpreter.loadScript(script);
 
@@ -27,9 +27,10 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
   SECTION("The interpreter can print characters")
   {
     auto [script, expectedResult] = GENERATE(
-        std::pair("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s, "A")
-      , std::pair("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s, "B")
-      , std::pair("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.+.", "AB")
+        std::pair(std::string(static_cast<int>('A'), '+') + ".", "A")
+      , std::pair(std::string(static_cast<int>('B'), '+') + ".", "B")
+      , std::pair(std::string(static_cast<int>('A'), '+') + "."s
+                + std::string(static_cast<int>('G' - 'A'), '+') + ".", "AG")
     );
     interpreter.loadScript(script);
     auto oss = std::ostringstream();
@@ -42,11 +43,11 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
   SECTION("The interpreter can write and print characters in sequential cells from right to left")
   {
     auto [script, expectedResult] = GENERATE(
-        std::pair("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-                  ">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s, "AB"),
-        std::pair(" +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-                  ">++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-                  ">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s, "ABC")
+        std::pair(std::string(static_cast<int>('A'), '+') + ".>"
+                + std::string(static_cast<int>('B'), '+') + ".", "AB")
+      , std::pair(std::string(static_cast<int>('A'), '+') + ".>"s
+                + std::string(static_cast<int>('B'), '+') + ".>"s
+                + std::string(static_cast<int>('C'), '+') + ".", "ABC")
     );
     interpreter.loadScript(script);
     auto oss = std::ostringstream();
@@ -59,8 +60,8 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
   SECTION("The interpreter can write and print characters in sequential cells from left to right")
   {
     auto [script, expectedResult] = GENERATE(
-        std::pair(">+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-                  "<++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."s, "AB")
+        std::pair(">"s + std::string(static_cast<int>('A'), '+') + ".<"
+                       + std::string(static_cast<int>('B'), '+') + ".", "AB")
     );
     interpreter.loadScript(script);
     auto oss = std::ostringstream();
@@ -95,9 +96,12 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
   SECTION("The interpreter can perform subtraction")
   {
     auto [script, expectedResult] = GENERATE(
-        std::pair(std::string(static_cast<int>('D'), '+') + "."s + std::string(static_cast<int>('D' - 'A'), '-') + ".", "DA")
-      , std::pair(std::string(static_cast<int>('Z'), '+') + "."s + std::string(static_cast<int>('Z' - 'L'), '-') + ".", "ZL")
-      , std::pair(std::string(static_cast<int>('H'), '+') + "."s + std::string(static_cast<int>('H' - 'F'), '-') + ".", "HF")
+        std::pair(std::string(static_cast<int>('D'), '+') + "."s
+                + std::string(static_cast<int>('D' - 'A'), '-') + ".", "DA")
+      , std::pair(std::string(static_cast<int>('Z'), '+') + "."s
+                + std::string(static_cast<int>('Z' - 'L'), '-') + ".", "ZL")
+      , std::pair(std::string(static_cast<int>('H'), '+') + "."s
+                + std::string(static_cast<int>('H' - 'F'), '-') + ".", "HF")
     );
     interpreter.loadScript(script);
     auto oss = std::ostringstream();
