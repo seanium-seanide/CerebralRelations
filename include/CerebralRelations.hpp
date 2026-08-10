@@ -17,7 +17,7 @@ public:
 
   void loadScript(std::string_view script);
   std::string dumpScript();
-  void run(std::ostream& os = std::cout);
+  void run(std::ostream& os = std::cout, std::istream& is = std::cin);
   void reset();
 
 private:

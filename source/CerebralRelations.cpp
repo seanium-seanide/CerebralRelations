@@ -24,7 +24,7 @@ std::string CerebralRelations::dumpScript()
 }
 
 
-void CerebralRelations::run(std::ostream& os)
+void CerebralRelations::run(std::ostream& os, std::istream& is)
 {
   auto dataPointer = static_cast<size_type>(0);
 
@@ -81,6 +81,13 @@ void CerebralRelations::run(std::ostream& os)
       {
         os << static_cast<char>(m_data[dataPointer]);
         break;
+      }
+
+      case ',':
+      {
+        int value{};
+        is >> value;
+        m_data[dataPointer] = value;
       }
 
       default:

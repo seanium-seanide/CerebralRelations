@@ -127,4 +127,16 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
     REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
     REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("out of range"));
   }
+
+  SECTION("Can read a value from stdin")
+  {
+    interpreter.loadScript(",.");
+    auto oss = std::ostringstream();
+    auto iss = std::istringstream();
+    auto data = std::to_string(static_cast<int>('A'));
+    iss.str(data);
+    interpreter.run(oss, iss);
+
+    REQUIRE(oss.str() == "A");
+  }
 }
