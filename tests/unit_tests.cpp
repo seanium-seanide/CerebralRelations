@@ -111,10 +111,15 @@ TEST_CASE("The interpreter can perform subtraction", "[cerebral]")
 {
   auto interpreter = CerebralRelations();
 
-  interpreter.loadScript(std::string(68, '+') + "."s + std::string(3, '-') + ".");
+  auto [script, expectedResult] = GENERATE(
+      std::pair(std::string(static_cast<int>('D'), '+') + "."s + std::string(static_cast<int>('D' - 'A'), '-') + ".", "DA")
+    , std::pair(std::string(static_cast<int>('Z'), '+') + "."s + std::string(static_cast<int>('Z' - 'L'), '-') + ".", "ZL")
+    , std::pair(std::string(static_cast<int>('H'), '+') + "."s + std::string(static_cast<int>('H' - 'F'), '-') + ".", "HF")
+  );
+  interpreter.loadScript(script);
   auto oss = std::ostringstream();
   interpreter.run(oss);
 
   auto result = oss.str();
-  REQUIRE(result == "DA");
+  REQUIRE(result == expectedResult);
 }
