@@ -128,7 +128,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
       {
         if (m_data[m_dataPointer] == 0)
         {
-          m_dataPointer = m_braceMap[m_dataPointer];
+          instructionPointer = m_braceMap[instructionPointer];
         }
         break;
       }
@@ -137,7 +137,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
       {
         if (m_data[m_dataPointer] != 0)
         {
-          m_dataPointer = m_braceMap[m_dataPointer];
+          instructionPointer = m_braceMap[instructionPointer];
         }
 
         break;

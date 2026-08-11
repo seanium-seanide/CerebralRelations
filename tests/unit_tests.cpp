@@ -175,7 +175,7 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
 
   SECTION("The interpreter can execute loops")
   {
-    interpreter.loadScript("+++>" + std::string(static_cast<int>('A'), '+') + "[<.>-]");
+    interpreter.loadScript(std::string(static_cast<int>('A'), '+') + ">+++[<.>-]");
     auto oss = std::ostringstream();
     interpreter.run(oss);
 
