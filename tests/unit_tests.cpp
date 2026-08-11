@@ -139,4 +139,10 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
 
     REQUIRE(oss.str() == "A");
   }
+
+  // Test list
+  //
+  // * [ ] State of interpreter is persisted between runs
+  // * [ ] Can clear state of interpreter
+  // * [ ] Can print items in a loop
 }
