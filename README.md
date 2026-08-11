@@ -9,8 +9,8 @@ cmake --preset config-debug
 cmake --build --preset build-debug
 ```
 
-## Run unit tests
+## Build and run unit tests
 
 ```
-ctest --preset test-debug
+ctest --workflow --preset build-and-test
 ```

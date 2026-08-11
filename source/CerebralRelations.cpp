@@ -50,6 +50,11 @@ void CerebralRelations::loadScript(std::string_view script)
 }
 
 
+void CerebralRelations::loadFile(std::string_view filename)
+{
+}
+
+
 std::string CerebralRelations::dumpScript()
 {
   return m_script;
