@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <array>
 #include <iostream>
 #include <ostream>
@@ -18,7 +19,7 @@ public:
   CerebralRelations();
 
   void loadScript(std::string_view script);
-  void loadFile(std::string_view filename);
+  void loadFile(const std::string& filename);
   std::string dumpScript();
   void run(std::ostream& os = std::cout, std::istream& is = std::cin);
   void reset();

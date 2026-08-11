@@ -1,8 +1,11 @@
 #include "CerebralRelations.hpp"
 
 #include <vector>
+#include <format>
+#include <filesystem>
 #include <stack>
 #include <ranges>
+#include <fstream>
 #include <cstring>
 #include <fmt/core.h>
 
@@ -50,8 +53,19 @@ void CerebralRelations::loadScript(std::string_view script)
 }
 
 
-void CerebralRelations::loadFile(std::string_view filename)
+void CerebralRelations::loadFile(const std::string& filename)
 {
+  auto file = std::ifstream(filename);
+  if (!file)
+  {
+    throw std::runtime_error(std::format("Failed to open file {}. Current directory: {}", filename, std::string{std::filesystem::current_path()}));
+  }
+
+  auto script = std::string(std::istreambuf_iterator<char>{file}, {});
+
+  loadScript(script);
+
+  file.close();
 }
 
 
