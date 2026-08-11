@@ -5,12 +5,14 @@
 #include <iostream>
 #include <ostream>
 #include <cstdint>
+#include <unordered_map>
 
 
 class CerebralRelations
 {
 public:
   using size_type = std::size_t;
+  using data_type = std::uint8_t;
   static constexpr size_type tape_size = 30000;
 
   CerebralRelations();
@@ -24,4 +26,5 @@ private:
   std::string m_script;
   std::array<uint8_t, tape_size> m_data;
   size_type m_dataPointer{0};
+  std::unordered_map<size_type, size_type> m_braceMap;
 };

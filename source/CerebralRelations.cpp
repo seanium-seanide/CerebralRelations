@@ -1,5 +1,8 @@
 #include "CerebralRelations.hpp"
 
+#include <vector>
+#include <stack>
+#include <ranges>
 #include <cstring>
 #include <fmt/core.h>
 
@@ -15,6 +18,35 @@ CerebralRelations::CerebralRelations()
 void CerebralRelations::loadScript(std::string_view script)
 {
   m_script = script;
+  auto stack = std::stack(std::vector<int>());
+
+  for (auto const [i, c]: std::views::enumerate(script))
+  {
+    switch (c)
+    {
+      case '[':
+      {
+        stack.push(i);
+        break;
+      }
+
+      case ']':
+      {
+        auto index = stack.top();
+        stack.pop();
+
+        m_braceMap[index] = i;
+        m_braceMap[i] = index;
+
+        break;
+      }
+
+      default:
+      {
+        break;
+      }
+    }
+  }
 }
 
 
@@ -38,8 +70,8 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
         {
           throw std::runtime_error("Attempted to step from tape at right side");
         }
-
         ++m_dataPointer;
+
         break;
       }
 
@@ -49,8 +81,8 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
         {
           throw std::runtime_error("Attempted to step from tape at left side");
         }
-
         --m_dataPointer;
+
         break;
       }
 
@@ -60,8 +92,8 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
         {
           throw std::runtime_error("Attempted to imcrement data out of range");
         }
-
         ++m_data[m_dataPointer];
+
         break;
       }
 
@@ -72,12 +104,14 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
           throw std::runtime_error("Attempted to decrement data out of range");
         }
         --m_data[m_dataPointer];
+
         break;
       }
 
       case '.':
       {
         os << static_cast<char>(m_data[m_dataPointer]);
+
         break;
       }
 
@@ -86,6 +120,27 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
         int value{};
         is >> value;
         m_data[m_dataPointer] = value;
+
+        break;
+      }
+
+      case '[':
+      {
+        if (m_data[m_dataPointer] == 0)
+        {
+          m_dataPointer = m_braceMap[m_dataPointer];
+        }
+        break;
+      }
+
+      case ']':
+      {
+        if (m_data[m_dataPointer] != 0)
+        {
+          m_dataPointer = m_braceMap[m_dataPointer];
+        }
+
+        break;
       }
 
       default:

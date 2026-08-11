@@ -173,6 +173,15 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
     REQUIRE_THROWS_WITH(interpreter.run(oss), Catch::Matchers::ContainsSubstring("left"));
   }
 
+  SECTION("The interpreter can execute loops")
+  {
+    interpreter.loadScript("+++>" + std::string(static_cast<int>('A'), '+') + "[<.>-]");
+    auto oss = std::ostringstream();
+    interpreter.run(oss);
+
+    REQUIRE(oss.str() == "AAA");
+  }
+
   // Test list
   //
   // * [x] State of interpreter is persisted between runs
