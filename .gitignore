@@ -2,3 +2,4 @@ build
 *.swp
 .cache
 session.vim
+compile_commands.json
