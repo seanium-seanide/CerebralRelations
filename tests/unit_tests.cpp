@@ -140,9 +140,42 @@ TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
     REQUIRE(oss.str() == "A");
   }
 
+  SECTION("The state of the interpreter is persisted between runs by default")
+  {
+    interpreter.loadScript(std::string(static_cast<int>('A'), '+') + ".>"s
+                         + std::string(static_cast<int>('E'), '+') + ".>"s
+                         + std::string(static_cast<int>('I'), '+') + ".>"s
+                         + std::string(static_cast<int>('O'), '+') + ".>"s
+                         + std::string(static_cast<int>('U'), '+') + "."
+    );
+    auto oss = std::ostringstream();
+    interpreter.run(oss);
+    interpreter.loadScript("<.<.<.<.");
+    interpreter.run(oss);
+
+    REQUIRE(oss.str() == "AEIOUOIEA");
+  }
+
+  SECTION("The state of the interpreter can be reset")
+  {
+    interpreter.loadScript(std::string(static_cast<int>('A'), '+') + ".>"s
+                         + std::string(static_cast<int>('E'), '+') + ".>"s
+                         + std::string(static_cast<int>('I'), '+') + ".>"s
+                         + std::string(static_cast<int>('O'), '+') + ".>"s
+                         + std::string(static_cast<int>('U'), '+') + "."
+    );
+    auto oss = std::ostringstream();
+    interpreter.run(oss);
+    interpreter.reset();
+    interpreter.loadScript("<");
+
+    REQUIRE_THROWS_AS(interpreter.run(oss), std::runtime_error);
+    REQUIRE_THROWS_WITH(interpreter.run(oss), Catch::Matchers::ContainsSubstring("left"));
+  }
+
   // Test list
   //
-  // * [ ] State of interpreter is persisted between runs
-  // * [ ] Can clear state of interpreter
+  // * [x] State of interpreter is persisted between runs
+  // * [x] Can clear state of interpreter
   // * [ ] Can print items in a loop
 }

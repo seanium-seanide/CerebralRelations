@@ -26,8 +26,6 @@ std::string CerebralRelations::dumpScript()
 
 void CerebralRelations::run(std::ostream& os, std::istream& is)
 {
-  auto dataPointer = static_cast<size_type>(0);
-
   for (size_type instructionPointer = 0; instructionPointer < m_script.size(); ++instructionPointer)
   {
     auto instruction = m_script[instructionPointer];
@@ -36,50 +34,50 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
     {
       case '>':
       {
-        if (dataPointer == m_data.size() - 1)
+        if (m_dataPointer == m_data.size() - 1)
         {
           throw std::runtime_error("Attempted to step from tape at right side");
         }
 
-        ++dataPointer;
+        ++m_dataPointer;
         break;
       }
 
       case '<':
       {
-        if (dataPointer == 0)
+        if (m_dataPointer == 0)
         {
           throw std::runtime_error("Attempted to step from tape at left side");
         }
 
-        --dataPointer;
+        --m_dataPointer;
         break;
       }
 
       case '+':
       {
-        if (m_data[dataPointer] == 255)
+        if (m_data[m_dataPointer] == 255)
         {
           throw std::runtime_error("Attempted to imcrement data out of range");
         }
 
-        ++m_data[dataPointer];
+        ++m_data[m_dataPointer];
         break;
       }
 
       case '-':
       {
-        if (m_data[dataPointer] == 0)
+        if (m_data[m_dataPointer] == 0)
         {
           throw std::runtime_error("Attempted to decrement data out of range");
         }
-        --m_data[dataPointer];
+        --m_data[m_dataPointer];
         break;
       }
 
       case '.':
       {
-        os << static_cast<char>(m_data[dataPointer]);
+        os << static_cast<char>(m_data[m_dataPointer]);
         break;
       }
 
@@ -87,7 +85,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
       {
         int value{};
         is >> value;
-        m_data[dataPointer] = value;
+        m_data[m_dataPointer] = value;
       }
 
       default:
@@ -101,5 +99,6 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
 
 void CerebralRelations::reset()
 {
+  m_dataPointer = 0;
   std::memset(m_data.data(), static_cast<size_type>(0), tape_size);
 }

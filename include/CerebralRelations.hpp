@@ -23,4 +23,5 @@ public:
 private:
   std::string m_script;
   std::array<uint8_t, tape_size> m_data;
+  size_type m_dataPointer{0};
 };
