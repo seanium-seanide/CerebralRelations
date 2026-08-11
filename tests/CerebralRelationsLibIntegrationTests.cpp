@@ -8,7 +8,7 @@
 using namespace std::string_literals;
 
 
-TEST_CASE("Brainfuck interpreter end-to-end tests", "[integration]")
+TEST_CASE("Brainfuck interpreter integration tests")
 {
   auto interpreter = CerebralRelations();
 

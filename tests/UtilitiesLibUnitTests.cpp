@@ -6,7 +6,7 @@
 using namespace std::string_literals;
 
 
-TEST_CASE("UtilitiesLib unit tests", "[utilities_unit]")
+TEST_CASE("UtilitiesLib unit tests")
 {
   // lstrip()
 

@@ -9,7 +9,7 @@
 using namespace std::string_literals;
 
 
-TEST_CASE("Brainfuck interpreter unit tests", "[unit]")
+TEST_CASE("Brainfuck interpreter unit tests")
 {
   auto interpreter = CerebralRelations();
 
@@ -181,10 +181,4 @@ TEST_CASE("Brainfuck interpreter unit tests", "[unit]")
 
     REQUIRE(oss.str() == "AAA");
   }
-
-  // Test list
-  //
-  // * [x] State of interpreter is persisted between runs
-  // * [x] Can clear state of interpreter
-  // * [ ] Can print items in a loop
 }

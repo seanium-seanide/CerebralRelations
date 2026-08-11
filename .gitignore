@@ -3,3 +3,4 @@ build
 .cache
 session.vim
 compile_commands.json
+*.swo
