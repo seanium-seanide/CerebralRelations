@@ -9,7 +9,7 @@
 using namespace std::string_literals;
 
 
-TEST_CASE("Brainfuck interpreter tests", "[cerebral]")
+TEST_CASE("Brainfuck interpreter unit tests", "[unit]")
 {
   auto interpreter = CerebralRelations();
 

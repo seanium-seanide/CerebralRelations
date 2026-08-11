@@ -28,3 +28,35 @@ add_test(
   NAME unit_tests
   COMMAND unit_tests
 )
+
+
+add_executable(integration_tests)
+
+target_sources(integration_tests
+  PRIVATE
+    integration_tests.cpp
+)
+
+target_compile_features(integration_tests
+  PRIVATE
+    cxx_std_23
+)
+
+target_link_libraries(integration_tests
+  PRIVATE
+    Catch2::Catch2WithMain
+    CerebralRelationsLib
+)
+
+target_compile_options(integration_tests
+  PRIVATE
+    -Wall
+    -Wextra
+    -Werror
+    -g
+)
+
+add_test(
+  NAME integration_tests
+  COMMAND integration_tests
+)
