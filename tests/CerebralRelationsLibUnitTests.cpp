@@ -79,7 +79,7 @@ TEST_CASE("Brainfuck interpreter unit tests")
     interpreter.reset();
     interpreter.loadScript("<");
 
-    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
+    REQUIRE_THROWS_AS(interpreter.run(), std::out_of_range);
     REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("left"));
   }
 
@@ -90,7 +90,7 @@ TEST_CASE("Brainfuck interpreter unit tests")
 
     interpreter.reset();
     interpreter.loadScript(std::string(CerebralRelations::tape_size, '>'));
-    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
+    REQUIRE_THROWS_AS(interpreter.run(), std::out_of_range);
     REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("right"));
   }
 
@@ -110,22 +110,6 @@ TEST_CASE("Brainfuck interpreter unit tests")
 
     auto result = oss.str();
     REQUIRE(result == expectedResult);
-  }
-
-  SECTION("Cannot increment a cell beyond 255")
-  {
-    interpreter.loadScript(std::string(258, '+'));
-
-    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
-    REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("out of range"));
-  }
-
-  SECTION("Cannot decrement a cell below 0")
-  {
-    interpreter.loadScript(std::string(1, '-'));
-
-    REQUIRE_THROWS_AS(interpreter.run(), std::runtime_error);
-    REQUIRE_THROWS_WITH(interpreter.run(), Catch::Matchers::ContainsSubstring("out of range"));
   }
 
   SECTION("Can read a value from stdin")
@@ -169,7 +153,7 @@ TEST_CASE("Brainfuck interpreter unit tests")
     interpreter.reset();
     interpreter.loadScript("<");
 
-    REQUIRE_THROWS_AS(interpreter.run(oss), std::runtime_error);
+    REQUIRE_THROWS_AS(interpreter.run(oss), std::out_of_range);
     REQUIRE_THROWS_WITH(interpreter.run(oss), Catch::Matchers::ContainsSubstring("left"));
   }
 

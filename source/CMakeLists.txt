@@ -46,7 +46,7 @@ target_compile_features(CerebralRelationsLib
 
 target_link_libraries(CerebralRelationsLib
   PRIVATE
-    fmt::fmt
+    UtilitiesLib
 )
 
 #####################

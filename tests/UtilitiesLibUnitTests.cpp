@@ -6,100 +6,131 @@
 using namespace std::string_literals;
 
 
-TEST_CASE("UtilitiesLib unit tests")
+TEST_CASE("Stripping whitespace from the start of a string")
 {
-  // lstrip()
+  auto string = "abc"s;
 
-  SECTION("lstrip does not affect a string with no leading whitespace")
+
+  SECTION("Stripping does not affect a string with no leading whitespace")
   {
-    auto string = "abc";
-
     auto result = utilities::lstrip(string);
 
     REQUIRE(result == string);
   }
 
-  SECTION("lstrip strips each indivudual kind of whitespace from the beginning of a string")
+  SECTION("Each indivudual kind of whitespace is stripped from the beginning of a string")
   {
     auto leadingChar = GENERATE("", " ", "\f", "\n", "\r", "\t", "\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::lstrip(leadingChar + strippedString);
+    auto result = utilities::lstrip(leadingChar + string);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
   }
 
-  SECTION("lstrip strips a sequence of leading whitespace from a string")
+  SECTION("A sequence of leading whitespace is stripped from a string")
   {
     auto leadingWhitespace = GENERATE("", "    ", "\f\t\n\r\t\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::lstrip(leadingWhitespace + strippedString);
+    auto result = utilities::lstrip(leadingWhitespace + string);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
   }
+}
 
-  // rstrip()
 
-  SECTION("rstrip does not affect a string with no trailing whitespace")
+TEST_CASE("Stripping whitespace from the end of a string")
+{
+  auto string = "abc"s;
+
+
+  SECTION("Stripping does not affect a string with no trailing whitespace")
   {
-    auto string = "abc";
-
     auto result = utilities::rstrip(string);
 
     REQUIRE(result == string);
   }
   
-  SECTION("rstrip strips each individual kind of whitespace from the end of a string")
+  SECTION("Each individual kind of whitespace is stripped from the end of a string")
   {
     auto trailingChar = GENERATE("", " ", "\f", "\n", "\r", "\t", "\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::rstrip(strippedString + trailingChar);
+    auto result = utilities::rstrip(string + trailingChar);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
   }
 
-  SECTION("rstrip strips a sequence of trailing whitespace from a string")
+  SECTION("A sequence of trailing whitespace is stripped from a string")
   {
     auto trailingWhitespace = GENERATE("", "    ", "\f\t\n\r\t\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::rstrip(strippedString + trailingWhitespace);
+    auto result = utilities::rstrip(string + trailingWhitespace);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
   }
+}
 
-  // strip()
 
-  SECTION("strip does not affect a string with no leading whitespace")
+TEST_CASE("Stripping whitespace from the start and end of a string")
+{
+  auto string = "abc"s;
+
+
+  SECTION("Stripping does not affect a string with no leading whitespace")
   {
-    auto string = "abc";
-
     auto result = utilities::strip(string);
 
     REQUIRE(result == string);
   }
 
-  SECTION("strip strips each indivudual kind of whitespace from the beginning and end of a string")
+  SECTION("Each indivudual kind of whitespace is stripped from the beginning and end of a string")
   {
     auto leadingChar = GENERATE("", " ", "\f", "\n", "\r", "\t", "\v");
     auto trailingChar = GENERATE("", " ", "\f", "\n", "\r", "\t", "\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::strip(leadingChar + strippedString + trailingChar);
+    auto result = utilities::strip(leadingChar + string + trailingChar);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
   }
 
-  SECTION("strip strips sequences of leading and trailing whitespace from a string")
+  SECTION("Sequences of leading and trailing whitespace are stripped from a string")
   {
     auto leadingWhitespace = GENERATE("", "    ", "\f\t\n\r\t\v");
     auto trailingWhitespace = GENERATE("", "    ", "\f\t\n\r\t\v");
 
-    auto strippedString = "abc"s;
-    auto result = utilities::strip(leadingWhitespace + strippedString + trailingWhitespace);
+    auto result = utilities::strip(leadingWhitespace + string + trailingWhitespace);
 
-    REQUIRE(result == strippedString);
+    REQUIRE(result == string);
+  }
+}
+
+
+TEST_CASE("Reading text from an input stream")
+{
+  SECTION("Reading from an empty stream returns the empty string")
+  {
+    auto iss = std::istringstream();
+    auto input = ""s;
+    iss.str(input);
+
+    auto result = utilities::readText(iss);
+
+    REQUIRE(result == input);
+  }
+
+  SECTION("Reading from a text stream returns the text in the stream")
+  {
+    auto iss = std::istringstream();
+    auto input = std::string(
+      "This is the first line\n"
+      "This is the second line line\n"
+      "This is the penultimate line line\n"
+      "\n"
+      "This is the final line\n"
+    );
+    iss.str(input);
+
+    auto result = utilities::readText(iss);
+
+    REQUIRE(result == input);
   }
 }

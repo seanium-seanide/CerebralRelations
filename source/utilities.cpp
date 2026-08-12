@@ -1,24 +1,23 @@
 #include "utilities.hpp"
 
 #include <algorithm>
+#include <format>
+#include <fstream>
+#include <filesystem>
 #include <ranges>
 #include <cctype>
 
 
 namespace
 {
-  auto whitespacePredicate
-    = [](const char c) 
-      {
-        return std::isspace(c); 
-      };
-} // anonymous namespace
+auto whitespacePredicate = [](const char c) { return std::isspace(c); };
+} // namespace
 
 
 namespace utilities
 {
 
-std::string lstrip(std::string str)
+auto lstrip(std::string str) -> std::string
 {
     auto it = std::ranges::find_if_not(str, ::whitespacePredicate);
 
@@ -27,7 +26,7 @@ std::string lstrip(std::string str)
 }
 
 
-std::string rstrip(std::string str)
+auto rstrip(std::string str) -> std::string
 {
     auto it = std::ranges::find_if_not(str | std::views::reverse, ::whitespacePredicate);
 
@@ -36,9 +35,36 @@ std::string rstrip(std::string str)
 }
 
 
-std::string strip(std::string str)
+auto strip(std::string str) -> std::string
 {
   return rstrip(lstrip(str));
+}
+
+
+auto readText(std::istream& is) -> std::string
+{
+  return {std::istreambuf_iterator<char>{is}, {}};
+}
+
+
+auto readTextFile(const std::string& filename) -> std::string
+{
+  auto file = std::ifstream(filename);
+  if (!file)
+  {
+    throw std::runtime_error(
+      std::format(
+        "Failed to open file {}. Current directory: {}"
+      , filename, std::string{std::filesystem::current_path()}
+      )
+    );
+  }
+
+  auto script = readText(file);
+
+  file.close();
+
+  return script;
 }
 
 } // namespace utilities

@@ -18,11 +18,11 @@ public:
 
   CerebralRelations();
 
-  void loadScript(std::string_view script);
-  void loadFile(const std::string& filename);
-  std::string dumpScript();
-  void run(std::ostream& os = std::cout, std::istream& is = std::cin);
-  void reset();
+  auto loadScript(std::string_view script) -> void;
+  auto loadFile(const std::string& filename) -> void;
+  auto dumpScript() -> std::string;
+  auto run(std::ostream& os = std::cout, std::istream& is = std::cin) -> void;
+  auto reset() -> void;
 
 private:
   std::string m_script;

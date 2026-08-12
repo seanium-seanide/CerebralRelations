@@ -1,13 +1,11 @@
 #include "CerebralRelations.hpp"
 
 #include <vector>
-#include <format>
-#include <filesystem>
 #include <stack>
 #include <ranges>
-#include <fstream>
+#include <istream>
 #include <cstring>
-#include <fmt/core.h>
+#include "utilities.hpp"
 
 using namespace std::string_literals;
 
@@ -18,7 +16,7 @@ CerebralRelations::CerebralRelations()
 }
 
 
-void CerebralRelations::loadScript(std::string_view script)
+auto CerebralRelations::loadScript(std::string_view script) -> void
 {
   m_script = script;
   auto stack = std::stack(std::vector<int>());
@@ -53,29 +51,20 @@ void CerebralRelations::loadScript(std::string_view script)
 }
 
 
-void CerebralRelations::loadFile(const std::string& filename)
+auto CerebralRelations::loadFile(const std::string& filename) -> void
 {
-  auto file = std::ifstream(filename);
-  if (!file)
-  {
-    throw std::runtime_error(std::format("Failed to open file {}. Current directory: {}", filename, std::string{std::filesystem::current_path()}));
-  }
-
-  auto script = std::string(std::istreambuf_iterator<char>{file}, {});
-
+  auto script = utilities::readTextFile(filename);
   loadScript(script);
-
-  file.close();
 }
 
 
-std::string CerebralRelations::dumpScript()
+auto CerebralRelations::dumpScript() -> std::string
 {
   return m_script;
 }
 
 
-void CerebralRelations::run(std::ostream& os, std::istream& is)
+auto CerebralRelations::run(std::ostream& os, std::istream& is) -> void
 {
   for (size_type instructionPointer = 0; instructionPointer < m_script.size(); ++instructionPointer)
   {
@@ -87,7 +76,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
       {
         if (m_dataPointer == m_data.size() - 1)
         {
-          throw std::runtime_error("Attempted to step from tape at right side");
+          throw std::out_of_range("Attempted to step from tape at right side");
         }
         ++m_dataPointer;
 
@@ -98,7 +87,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
       {
         if (m_dataPointer == 0)
         {
-          throw std::runtime_error("Attempted to step from tape at left side");
+          throw std::out_of_range("Attempted to step from tape at left side");
         }
         --m_dataPointer;
 
@@ -107,10 +96,6 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
 
       case '+':
       {
-        if (m_data[m_dataPointer] == 255)
-        {
-          throw std::runtime_error("Attempted to imcrement data out of range");
-        }
         ++m_data[m_dataPointer];
 
         break;
@@ -118,10 +103,6 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
 
       case '-':
       {
-        if (m_data[m_dataPointer] == 0)
-        {
-          throw std::runtime_error("Attempted to decrement data out of range");
-        }
         --m_data[m_dataPointer];
 
         break;
@@ -171,7 +152,7 @@ void CerebralRelations::run(std::ostream& os, std::istream& is)
 }
 
 
-void CerebralRelations::reset()
+auto CerebralRelations::reset() -> void
 {
   m_dataPointer = 0;
   std::memset(m_data.data(), static_cast<size_type>(0), tape_size);

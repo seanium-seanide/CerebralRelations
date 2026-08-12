@@ -102,5 +102,5 @@ target_compile_options(CerebralRelationsLibIntegrationTests
 add_test(
   NAME              CerebralRelationsLibIntegrationTests
   COMMAND           CerebralRelationsLibIntegrationTests
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
