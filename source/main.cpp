@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     interpreter.loadFile(argv[1]);
     interpreter.run();
   }
-  else
+  else // Usage message
   {
     std::cout << std::format(
         "Usage: {} [<script filename>]\n"

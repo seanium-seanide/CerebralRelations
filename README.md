@@ -18,5 +18,5 @@ ctest --workflow --preset build-and-test
 ## Usage
 
 ```
-build/debug/source/CerebralRelations \[\<script filename\>\]
+build/debug/source/CerebralRelations [<script filename>]
 ```
