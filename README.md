@@ -14,3 +14,9 @@ cmake --build --preset build-debug
 ```
 ctest --workflow --preset build-and-test
 ```
+
+## Usage
+
+```
+build/debug/source/CerebralRelations \[\<script filename\>\]
+```
