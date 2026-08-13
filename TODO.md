@@ -1,8 +1,8 @@
 # TODO
 
 * [x] Implement application
-* [ ] REPL mode application tests
-* [ ] Script mode application tests
-* [ ] Invalid arguments application tests
+* [x] REPL mode application tests
+* [x] Script mode application tests
+* [x] Invalid arguments application tests
+* [x] Simplify CMakeLists (add function to create test targets?)
 * [ ] Polymorphic refactor
-* [ ] Simplify CMakeLists (add function to create test targets?)
