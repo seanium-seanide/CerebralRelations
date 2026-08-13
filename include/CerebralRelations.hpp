@@ -26,7 +26,7 @@ public:
 
 private:
   std::string m_script;
-  std::array<uint8_t, tape_size> m_data;
+  std::array<data_type, tape_size> m_data;
   size_type m_dataPointer{0};
   std::unordered_map<size_type, size_type> m_braceMap;
 };
