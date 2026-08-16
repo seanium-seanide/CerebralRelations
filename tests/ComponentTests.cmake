@@ -12,6 +12,7 @@ function(CerebralRelations_addTest)
   target_compile_features(${ARG_TEST_NAME} PRIVATE cxx_std_23)
   target_link_libraries(${ARG_TEST_NAME} PRIVATE Catch2::Catch2WithMain ${ARG_LINK_LIBRARIES})
   target_compile_options(${ARG_TEST_NAME} PRIVATE -Wall -Wextra -Werror -g)
+  add_test(NAME ${ARG_TEST_NAME} COMMAND ${ARG_TEST_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction()
 
 
